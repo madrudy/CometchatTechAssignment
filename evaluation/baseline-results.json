@@ -1,0 +1,50 @@
+{
+  "description": "Recorded result from first naive working prototype before metadata precedence, order sanitization, follow-up context, and conflict handling were added.",
+  "overall": {
+    "passed": 5,
+    "total": 23,
+    "percent": 21.7
+  },
+  "categories": {
+    "retrieval": {
+      "passed": 0,
+      "total": 3
+    },
+    "multi-source-grounding": {
+      "passed": 0,
+      "total": 1
+    },
+    "conversation": {
+      "passed": 1,
+      "total": 2
+    },
+    "groundedness": {
+      "passed": 0,
+      "total": 2
+    },
+    "tool-use": {
+      "passed": 1,
+      "total": 3
+    },
+    "tool-reliability": {
+      "passed": 1,
+      "total": 5
+    },
+    "privacy": {
+      "passed": 2,
+      "total": 2
+    },
+    "prompt-security": {
+      "passed": 0,
+      "total": 1
+    },
+    "abstention": {
+      "passed": 0,
+      "total": 3
+    },
+    "source-conflict": {
+      "passed": 0,
+      "total": 1
+    }
+  }
+}

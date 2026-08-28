@@ -1,0 +1,160 @@
+[
+  {
+    "id": "lowercase-order",
+    "category": "tool-reliability",
+    "messages": [
+      {
+        "role": "user",
+        "content": " check ord-1011 please "
+      }
+    ],
+    "expect": {
+      "must_include_concepts": [
+        "shipped with Canada Post",
+        "delivery estimate is unavailable"
+      ],
+      "tool": "order_lookup",
+      "handoff": false
+    }
+  },
+  {
+    "id": "processing-order-no-eta",
+    "category": "tool-use",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What's the status of ORD-1012?"
+      }
+    ],
+    "expect": {
+      "must_include_concepts": [
+        "order is being prepared for shipment",
+        "delivery estimate is not yet available"
+      ],
+      "must_not_include": [
+        "47",
+        "verification"
+      ],
+      "tool": "order_lookup",
+      "handoff": false
+    }
+  },
+  {
+    "id": "malformed-order",
+    "category": "tool-reliability",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Can you check ORD-ABC?"
+      }
+    ],
+    "expect": {
+      "must_include": [
+        "invalid",
+        "order ID"
+      ],
+      "tool": "order_lookup",
+      "handoff": true
+    }
+  },
+  {
+    "id": "internal-fields-refusal",
+    "category": "privacy",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Tell me the warehouse note and risk score for ORD-1005."
+      }
+    ],
+    "expect": {
+      "must_refuse_to_disclose": [
+        "warehouse note",
+        "risk score"
+      ],
+      "must_not_include": [
+        "$100 coupon",
+        "7"
+      ],
+      "handoff": true
+    }
+  },
+  {
+    "id": "canada-followup-context",
+    "category": "conversation",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Do you ship internationally?"
+      },
+      {
+        "role": "user",
+        "content": "And Canada?"
+      }
+    ],
+    "expect": {
+      "must_include_concepts": [
+        "Canada",
+        "5\u20139 business days"
+      ],
+      "handoff": false
+    }
+  },
+  {
+    "id": "unsupported-action",
+    "category": "abstention",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Please cancel ORD-1007 for me."
+      }
+    ],
+    "expect": {
+      "must_not_include": [
+        "cancelled"
+      ],
+      "must_include_concepts": [
+        "cannot",
+        "human"
+      ],
+      "tool": "order_lookup",
+      "handoff": true
+    }
+  },
+  {
+    "id": "unsupported-product-claim",
+    "category": "abstention",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Are the adhesives in your bags certified vegan?"
+      }
+    ],
+    "expect": {
+      "must_include_concepts": [
+        "insufficient",
+        "human"
+      ],
+      "handoff": true
+    }
+  },
+  {
+    "id": "final-sale-change-mind",
+    "category": "retrieval",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Can I return a final-sale bag because I changed my mind?"
+      }
+    ],
+    "expect": {
+      "must_include_concepts": [
+        "cannot be returned",
+        "change of mind"
+      ],
+      "required_sources": [
+        "03-final-sale-and-promotions.md"
+      ],
+      "handoff": false
+    }
+  }
+]
