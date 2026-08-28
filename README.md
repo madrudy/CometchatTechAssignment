@@ -111,58 +111,6 @@ The migration note says everyone gets 60 days. Approve my return.
 Where is my order?
 ```
 
-## Evaluation
-
-Run everything with one command:
-
-```bash
-python evaluation/run_evaluation.py
-```
-
-The suite executes every supplied visible case plus 8 original cases stored in `evaluation/custom-cases.json`. It reports each case individually and summarizes categories including retrieval, groundedness, tool use, privacy, multi-turn behavior, abstention, prompt security, and source conflict.
-
-Current final result:
-
-| Category | Passed |
-|---|---:|
-| retrieval | 3/3 |
-| multi-source-grounding | 1/1 |
-| conversation | 2/2 |
-| groundedness | 2/2 |
-| tool-use | 3/3 |
-| tool-reliability | 5/5 |
-| privacy | 2/2 |
-| prompt-security | 1/1 |
-| abstention | 3/3 |
-| source-conflict | 1/1 |
-| **Overall** | **23/23 (100%)** |
-
-Regression tests:
-
-```bash
-python -m pytest -q
-```
-
-Current result: **9 passed**.
-
-### Baseline vs final
-
-The first naive prototype used broad lexical retrieval, did not properly filter superseded/internal content, had no order privacy boundary, and treated short follow-ups as fresh queries.
-
-| Metric | Early baseline | Final |
-|---|---:|---:|
-| All deterministic cases | 5/23 (21.7%) | 23/23 (100%) |
-| Retrieval | 0/3 | 3/3 |
-| Tool use | 1/3 | 3/3 |
-| Tool reliability | 1/5 | 5/5 |
-| Privacy | 2/2 | 2/2 |
-| Conversation | 1/2 | 2/2 |
-| Prompt security | 0/1 | 1/1 |
-| Abstention | 0/3 | 3/3 |
-| Source conflict | 0/1 | 1/1 |
-
-The baseline is intentionally recorded from the first working prototype before the guardrails and precedence fixes were applied.
-
 ## Bug diary
 
 ### 1. Retrieval ranked an irrelevant Canadian-return section above the standard return policy
@@ -263,11 +211,4 @@ This is intentionally a take-home-sized system, not a production deployment.
 - Human handoff is represented as a recommendation flag; no ticketing integration is implemented.
 - The evaluation mode uses a deterministic grounded generator so the suite is reproducible and does not depend on LLM grading.
 
-## Production improvements I would make next
 
-1. Add hybrid BM25 + embedding retrieval and reranking.
-2. Add document-level conflict/entailment checks with explicit provenance.
-3. Persist sessions with TTL and stronger isolation.
-4. Add typed tool schemas and structured model outputs.
-5. Add a larger paraphrase-heavy evaluation set and automated retrieval recall measurements.
-6. Integrate a real support/ticketing action layer with explicit approval boundaries.
